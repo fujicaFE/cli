@@ -10,12 +10,16 @@
   "dependencies": {
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
-    "@oclif/plugin-plugins": "^5"
+    "@oclif/plugin-plugins": "^5",
+    "axios": "^1.7.7",
+    "copy-paste": "^1.5.3",
+    "fs-extra": "^11.2.0"
   },
   "devDependencies": {
     "@oclif/prettier-config": "^0.2.1",
     "@oclif/test": "^4",
     "@types/chai": "^4",
+    "@types/copy-paste": "^1.1.33",
     "@types/mocha": "^10",
     "@types/node": "^18",
     "chai": "^4",
@@ -67,7 +71,8 @@
     "posttest": "pnpm run lint",
     "prepack": "oclif manifest && oclif readme",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif readme && git add README.md"
+    "version": "oclif readme && git add README.md",
+    "fuji": "node ./bin/run.js"
   },
   "types": "dist/index.d.ts"
 }
