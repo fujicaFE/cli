@@ -13,7 +13,8 @@
     "@oclif/plugin-plugins": "^5",
     "axios": "^1.7.7",
     "copy-paste": "^1.5.3",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.2.0",
+    "lodash-es": "^4.17.21"
   },
   "devDependencies": {
     "@oclif/prettier-config": "^0.2.1",
