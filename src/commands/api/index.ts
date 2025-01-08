@@ -61,7 +61,7 @@ export default class ApiIndex extends Command {
     const {args, flags} = await this.parse(ApiIndex)
     const apiDoc = args.api ? pickBy(data.paths, (val, key) => key.startsWith(args.api)) : data.paths
     const apiDef = data.definitions
-    this.log('apiDoc', apiDoc)
+    // this.log('apiDoc', apiDoc)
     const types = []
 
     const getInterfaceName = (path, method) => {
@@ -101,9 +101,17 @@ export default class ApiIndex extends Command {
       if (typeDefinition) {
         const { title, properties } = typeDefinition;
         const interfaceDefinition = [`interface ${interfaceName} {`];
-        
-        if (properties?.data?.originalRef) {
-          return generateResponseInterface(properties.data, interfaceName)
+
+        const matchList = responseSchema?.originalRef.startsWith('R«List«')
+        const matchR = responseSchema?.originalRef.startsWith('R«')
+        const matchPage = responseSchema?.originalRef.startsWith('Page«') || responseSchema?.originalRef.startsWith('PageDto«')
+
+        if (matchList) {
+          return generateResponseInterface(properties?.data?.items, interfaceName)
+        } else if (matchR) {
+          return generateResponseInterface(properties?.data, interfaceName)
+        } else if (matchPage) {
+          return generateResponseInterface(properties?.records?.items, interfaceName)
         }
 
         // 遍历所有的属性，生成每个字段的类型
