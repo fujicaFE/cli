@@ -57,21 +57,20 @@ export default class ApiIndex extends Command {
     }
     /* 合法 */
     if (!args.api.startsWith('/')) {
-      this.warn('API参数应以/开头')
+      throw new Error('API参数应以/开头')
     }
     /* 转发 */
     if (args.api.startsWith('/transfer')) {
       args.api = args.api.replace('/transfer', '')
     }
     /* 平台 */
+    console.log("🚀 ~ run ~ args.api:", args.api)
     if (args.api.startsWith('/mobile')) {
       flags.platform = 'mobile'
     } else if (args.api.startsWith('/manage')) {
       flags.platform = 'manage'
       args.api = args.api.replace('/manage', '')
-    }
-    /* 无转发无平台 */
-    if (!args.api.startsWith('/mobile') && !args.api.startsWith('/manage')) {
+    } else {
       const answers = await inquirer.prompt([
         {
           type: 'list',
