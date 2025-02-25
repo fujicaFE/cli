@@ -71,7 +71,7 @@ export default class ApiIndex extends Command {
       args.api = args.api.replace('/manage', '')
     }
     /* 无转发无平台 */
-    if (!args.api.startsWith('/transfer') && !args.api.startsWith('/mobile') && !args.api.startsWith('/manage')) {
+    if (!args.api.startsWith('/mobile') && !args.api.startsWith('/manage')) {
       const answers = await inquirer.prompt([
         {
           type: 'list',
