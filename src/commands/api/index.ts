@@ -1,4 +1,5 @@
 import {Args, Command, Flags} from '@oclif/core'
+import chalk from 'chalk'
 import * as cp from 'copy-paste'
 import inquirer from 'inquirer'
 import {pickBy} from 'lodash-es'
@@ -88,7 +89,6 @@ export default class ApiIndex extends Command {
     }
 
     this.mainURL = this.urlMap[flags.platform]
-    this.log(`get api from ${flags.platform}`)
     fetch(this.mainURL)
       .then((res) => res.json())
       .then(async (data) => {
@@ -105,7 +105,7 @@ export default class ApiIndex extends Command {
 
   private async swag2Code(data, args, flags) {
     // const {args, flags} = await this.parse(ApiIndex)
-    console.log("🚀 ~ args.api:", args.api)
+    this.log("🚀searching:", args.api)
     const apiDoc = args.api ? pickBy(data.paths, (val, key) => key.startsWith(args.api)) : data.paths
     const apiDef = data.definitions
     // this.log('apiDoc', apiDoc)
@@ -285,7 +285,7 @@ export default class ApiIndex extends Command {
       }
     }
     if (count === 0) {
-      this.log('未找到任何接口')
+      this.log(chalk.yellow('未找到任何接口'))
       return
     }
 
@@ -306,9 +306,11 @@ export default class ApiIndex extends Command {
     }
     if (flags.platform === 'manage') {
       types.unshift(`import request from '@/utils/request'\n`)
+    } else if (flags.platform === 'mobile') {
+      types.unshift(`import { http } from '@/utils/http'\n`)
     }
 
-    console.log(`${flags.lang}接口和请求函数已复制到剪贴板！`)
+    this.log(chalk.bgWhite.green(`[${flags.lang.toUpperCase()}]请求函数已到剪贴板！[共计${count}个接口]`))
     return types.join('\n')
   }
 }

@@ -12,6 +12,7 @@
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-plugins": "^5",
     "axios": "^1.7.7",
+    "chalk": "5.4.1",
     "copy-paste": "^1.5.3",
     "fs-extra": "^11.2.0",
     "fuse.js": "7.1.0",
