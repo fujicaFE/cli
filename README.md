@@ -1,7 +1,10 @@
 @fujica/cli
 =================
 
-catching fish in fujica
+Catching fish in fujica.
+
+
+Author: Hexc, Lianx
 
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
@@ -482,6 +485,20 @@ _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/
   - [`fuji plugins uninstall [PLUGIN]`](#fuji-plugins-uninstall-plugin-1)
   - [`fuji plugins unlink [PLUGIN]`](#fuji-plugins-unlink-plugin-1)
   - [`fuji plugins update`](#fuji-plugins-update-1)
+  - [`fuji api [API]`](#fuji-api-api-2)
+  - [`fuji hello PERSON`](#fuji-hello-person-2)
+  - [`fuji hello world`](#fuji-hello-world-2)
+  - [`fuji help [COMMAND]`](#fuji-help-command-2)
+  - [`fuji plugins`](#fuji-plugins-2)
+  - [`fuji plugins add PLUGIN`](#fuji-plugins-add-plugin-2)
+  - [`fuji plugins:inspect PLUGIN...`](#fuji-pluginsinspect-plugin-2)
+  - [`fuji plugins install PLUGIN`](#fuji-plugins-install-plugin-2)
+  - [`fuji plugins link PATH`](#fuji-plugins-link-path-2)
+  - [`fuji plugins remove [PLUGIN]`](#fuji-plugins-remove-plugin-2)
+  - [`fuji plugins reset`](#fuji-plugins-reset-2)
+  - [`fuji plugins uninstall [PLUGIN]`](#fuji-plugins-uninstall-plugin-2)
+  - [`fuji plugins unlink [PLUGIN]`](#fuji-plugins-unlink-plugin-2)
+  - [`fuji plugins update`](#fuji-plugins-update-2)
 
 ## `fuji api [API]`
 
@@ -891,6 +908,20 @@ _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/
   - [`fuji plugins uninstall [PLUGIN]`](#fuji-plugins-uninstall-plugin-1)
   - [`fuji plugins unlink [PLUGIN]`](#fuji-plugins-unlink-plugin-1)
   - [`fuji plugins update`](#fuji-plugins-update-1)
+  - [`fuji api [API]`](#fuji-api-api-2)
+  - [`fuji hello PERSON`](#fuji-hello-person-2)
+  - [`fuji hello world`](#fuji-hello-world-2)
+  - [`fuji help [COMMAND]`](#fuji-help-command-2)
+  - [`fuji plugins`](#fuji-plugins-2)
+  - [`fuji plugins add PLUGIN`](#fuji-plugins-add-plugin-2)
+  - [`fuji plugins:inspect PLUGIN...`](#fuji-pluginsinspect-plugin-2)
+  - [`fuji plugins install PLUGIN`](#fuji-plugins-install-plugin-2)
+  - [`fuji plugins link PATH`](#fuji-plugins-link-path-2)
+  - [`fuji plugins remove [PLUGIN]`](#fuji-plugins-remove-plugin-2)
+  - [`fuji plugins reset`](#fuji-plugins-reset-2)
+  - [`fuji plugins uninstall [PLUGIN]`](#fuji-plugins-uninstall-plugin-2)
+  - [`fuji plugins unlink [PLUGIN]`](#fuji-plugins-unlink-plugin-2)
+  - [`fuji plugins update`](#fuji-plugins-update-2)
 
 ## `fuji api [API]`
 
