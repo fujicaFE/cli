@@ -29,6 +29,7 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`fuji api [API]`](#fuji-api-api)
 * [`fuji hello PERSON`](#fuji-hello-person)
 * [`fuji hello world`](#fuji-hello-world)
 * [`fuji help [COMMAND]`](#fuji-help-command)
@@ -42,6 +43,30 @@ USAGE
 * [`fuji plugins uninstall [PLUGIN]`](#fuji-plugins-uninstall-plugin)
 * [`fuji plugins unlink [PLUGIN]`](#fuji-plugins-unlink-plugin)
 * [`fuji plugins update`](#fuji-plugins-update)
+
+## `fuji api [API]`
+
+Convert API to code
+
+```
+USAGE
+  $ fuji api [API] [-f] [-p <value>]
+
+ARGUMENTS
+  API  API URL
+
+FLAGS
+  -f, --force
+  -p, --platform=<value>  [default: mobile] generate from which platform(manage/mobile)
+
+DESCRIPTION
+  Convert API to code
+
+EXAMPLES
+  $ fuji api
+```
+
+_See code: [src/commands/api/index.ts](https://github.com/fujicaFE/cli/blob/v0.0.0/src/commands/api/index.ts)_
 
 ## `fuji hello PERSON`
 
