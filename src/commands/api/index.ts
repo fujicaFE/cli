@@ -20,6 +20,8 @@ export default class ApiIndex extends Command {
     lang: Flags.string({char: 'l', default: 'js', description: 'choose api language(js/ts)'}),
     // flag with a value (-p, --platform=VALUE)
     platform: Flags.string({char: 'p', default: 'mobile', description: 'get api from which platform(manage/mobile)'}), // 默认移动端
+    // flag with a value (-s, --platform=VALUE)
+    codeStyle: Flags.string({char: 's', default: 'mobile', description: 'choose api function code style'}), // 默认跟随platform生成
   }
 
   apiToCamelCase = (apiName: string) => {
@@ -77,6 +79,7 @@ export default class ApiIndex extends Command {
           name: 'platform',
           message: '请选择平台',
           choices: ['manage', 'mobile'],
+          default: 'manage',
         },
       ])
       if (answers.platform) {
@@ -85,6 +88,27 @@ export default class ApiIndex extends Command {
       } else {
         throw new Error('平台为必填项')
       }
+    }
+    /** 代码风格 */
+    const answers = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'codeStyle',
+        message: '请选择代码风格',
+        choices: [
+          { name: '默认', value: 'default', description: '跟随平台' },
+          { name: '移动端', value: 'mobile', description: 'http({ url, method, data })' },
+          { name: 'PC端', value: 'manage', description: 'request({ url, method, data })' },
+        ],
+        default: 'default'
+      },
+    ])
+    if (answers.codeStyle === 'default') {
+      flags.codeStyle = flags.platform
+    } else if (answers.codeStyle) {
+      flags.codeStyle = answers.codeStyle
+    } else {
+      throw new Error('代码风格为必填项')
     }
 
     this.mainURL = this.urlMap[flags.platform]
@@ -192,8 +216,8 @@ export default class ApiIndex extends Command {
       const funcName = args.api ? `${lastPathPart}` : `${method.toLowerCase()}${lastPathPart.charAt(0).toUpperCase() + lastPathPart.slice(1)}`
       // 根据规则生成接口类型：I + 方法名 + 接口最后一个单词（TS）
       const interfaceName = `I${method.toUpperCase()}${lastPathPart}`
-      const reqDataKey = (flags.platform === 'manage' && method.toUpperCase() == 'GET') ? 'params' : 'data'
-      const reqMethodKey = flags.platform === 'manage' ? 'request' : 'http'
+      const reqDataKey = (flags.codeStyle === 'manage' && method.toUpperCase() == 'GET') ? 'params' : 'data'
+      const reqMethodKey = flags.codeStyle === 'manage' ? 'request' : 'http'
       return flags.lang === 'ts' ? `export const ${funcName} = (${reqDataKey}: ${interfaceName}): ${getInterfaceName(path, method)} => {
   return ${reqMethodKey}({
     url: \`${path.replace(`/${flags.platform}`, '')}\`,
@@ -303,9 +327,9 @@ export default class ApiIndex extends Command {
       `
       types.unshift(commonTypeDef)
     }
-    if (flags.platform === 'manage') {
+    if (flags.codeStyle === 'manage') {
       types.unshift(`import request from '@/utils/request'\n`)
-    } else if (flags.platform === 'mobile') {
+    } else if (flags.codeStyle === 'mobile') {
       types.unshift(`import { http } from '@/utils/http'\n`)
     }
 
