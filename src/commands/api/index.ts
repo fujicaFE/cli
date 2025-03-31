@@ -150,7 +150,7 @@ export default class ApiIndex extends Command {
       // 根据规则生成接口名：I + 请求方法名 + 接口最后一个单词
       const interfaceName = `I${method.toUpperCase()}${lastPathPart}`
 
-      const interfaceDefinition = [`interface ${interfaceName} {`]
+      const interfaceDefinition = [`type ${interfaceName} = Partial<{`]
 
       for (const param of params) {
         const type = transferType(param.type)
@@ -158,7 +158,7 @@ export default class ApiIndex extends Command {
         interfaceDefinition.push(`  ${description}\n  ${param.name}: ${type};`)
       }
 
-      interfaceDefinition.push('}')
+      interfaceDefinition.push('}>')
       return interfaceDefinition.join('\n')
 
     }
@@ -218,7 +218,7 @@ export default class ApiIndex extends Command {
       const interfaceName = `I${method.toUpperCase()}${lastPathPart}`
       const reqDataKey = (flags.codeStyle === 'manage' && method.toUpperCase() == 'GET') ? 'params' : 'data'
       const reqMethodKey = flags.codeStyle === 'manage' ? 'request' : 'http'
-      return flags.lang === 'ts' ? `export const ${funcName} = (${reqDataKey}: ${interfaceName}): ${getInterfaceName(path, method)} => {
+      return flags.lang === 'ts' ? `export const ${funcName} = (${reqDataKey}?: ${interfaceName}): ${getInterfaceName(path, method)} => {
   return ${reqMethodKey}({
     url: \`${path.replace(`/${flags.platform}`, '')}\`,
     method: '${method.toUpperCase()}',
