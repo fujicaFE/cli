@@ -22,6 +22,8 @@ export default class ApiIndex extends Command {
     platform: Flags.string({char: 'p', default: 'mobile', description: 'get api from which platform(manage/mobile)'}), // 默认移动端
     // flag with a value (-s, --platform=VALUE)
     codeStyle: Flags.string({char: 's', default: 'mobile', description: 'choose api function code style'}), // 默认跟随platform生成
+    // flag with a value (-s, --platform=VALUE)
+    comment: Flags.boolean({char: 's', default: true, description: 'choose api function code style'}), // 是否开启注释
   }
 
   apiToCamelCase = (apiName: string) => {
@@ -38,13 +40,15 @@ export default class ApiIndex extends Command {
   urlMap = {
     manage: 'https://gatewayservicev2.fujica.com.cn/transfer/manage/v2/api-docs',
     mobile: 'https://gatewayservicev2.fujica.com.cn/transfer/mobile/v2/api-docs',
-    // richMerchant: 'https://gatewayservicev2.fujica.com.cn/transfer/richMerchant/v2/api-docs',
+    fyx: 'https://gatewayservicev2.fujica.com.cn/fyx/v2/api-docs',
+    richMerchant: 'https://gatewayservicev2.fujica.com.cn/transfer/richMerchant/v2/api-docs',
     pay: 'https://gatewayservicev2.fujica.com.cn/payment/callback/v2/api-docs',
   }
 
   public async run(): Promise<void> {
     const { args, flags } = await this.parse(ApiIndex)
-    this.mainURL = this.urlMap[flags.platform]
+
+    const platformList = Object.keys(this.urlMap)
 
     /* 非空 */
     if (!args.api) {
@@ -67,19 +71,21 @@ export default class ApiIndex extends Command {
     }
     /* 平台 */
     console.log("🚀 ~ run ~ args.api:", args.api)
-    if (args.api.startsWith('/mobile')) {
-      flags.platform = 'mobile'
-    } else if (args.api.startsWith('/manage')) {
-      flags.platform = 'manage'
-      args.api = args.api.replace('/manage', '')
-    } else {
+    const hasPlatform = platformList.some(platform => args.api.startsWith(`/${platform}`))
+    platformList.forEach(platform => {
+      if (args.api.startsWith(`/${platform}`)) {
+        flags.platform = platform
+        if (platform==='manage') args.api = args.api.replace(`/${platform}`, '')
+      }
+    })
+    if (!hasPlatform) {
       const answers = await inquirer.prompt([
         {
           type: 'list',
           name: 'platform',
           message: '请选择平台',
-          choices: ['manage', 'mobile'],
-          default: 'manage',
+          choices: ['fyx', 'manage', 'mobile', 'richMerchant'],
+          default: 'fyx',
         },
       ])
       if (answers.platform) {
@@ -89,6 +95,8 @@ export default class ApiIndex extends Command {
         throw new Error('平台为必填项')
       }
     }
+    this.mainURL = this.urlMap[flags.platform]
+    console.log("🚀 ~ run ~ this.mainURL:", this.mainURL)
     /** 代码风格 */
     const answers = await inquirer.prompt([
       {
@@ -167,6 +175,7 @@ export default class ApiIndex extends Command {
       // 获取 originalRef 并找到对应的类型定义
       const typeName = responseSchema?.originalRef?.replace('#/definitions/', '') || '';
       const typeDefinition = apiDef[typeName];
+      console.log("🚀 ~ generateResponseInterface ~ typeDefinition:", typeDefinition)
 
       // 如果找到类型定义，则生成对应的接口
       if (typeDefinition) {
@@ -239,10 +248,25 @@ export default class ApiIndex extends Command {
       if (flags.lang === 'ts') {
         return summary ? `/** ${summary} */` : ''
       } else {
+        const typeName = params[0]?.schema?.originalRef?.replace('#/definitions/', '') || '';
+        const typeDefinition = apiDef[typeName];
+        const { title, properties } = typeDefinition;
         const paramsDefinition = []
-        for (const param of params) {
-          const type = transferType(param.type)
-          paramsDefinition.push(`@param {${type}} params.${param.name} ${param.description || ''}`)
+        if (typeDefinition) {
+          console.log("🚀 ~ generateComment ~ typeDefinition:", typeDefinition)
+          // 遍历所有的属性，生成每个字段的类型
+          Object.keys(properties).forEach(property => {
+            const { type, format, description } = properties[property];
+            const jsType = transferType(type, format)
+
+            // 添加注释和字段定义
+            paramsDefinition.push(`@param {${jsType}} params.${property} ${description || ''}`);
+          });
+        } else {
+          for (const param of params) {
+            const type = transferType(param.type)
+            paramsDefinition.push(`@param {${type}} params.${param.name} ${param.description || ''}`)
+          }
         }
         return `/**
  * ${summary}
