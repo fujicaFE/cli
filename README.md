@@ -32,7 +32,7 @@ $ npm install -g @fujica/cli
 $ fuji COMMAND
 running command...
 $ fuji (--version)
-@fujica/cli/0.0.4 win32-x64 node-v18.20.2
+@fujica/cli/0.0.5 win32-x64 node-v18.20.2
 $ fuji --help [COMMAND]
 USAGE
   $ fuji COMMAND
@@ -98,7 +98,7 @@ Convert API to code
 
 ```
 USAGE
-  $ fuji api [API] [-f] [-l <value>] [-p <value>] [-s <value>]
+  $ fuji api [API] [-f] [-l <value>] [-p <value>] [-s <value>] [-s]
 
 ARGUMENTS
   API  API URL
@@ -108,6 +108,7 @@ FLAGS
   -l, --lang=<value>       [default: js] choose api language(js/ts)
   -p, --platform=<value>   [default: mobile] get api from which platform(manage/mobile)
   -s, --codeStyle=<value>  [default: mobile] choose api function code style
+  -s, --comment            choose api function code style
 
 DESCRIPTION
   Convert API to code
@@ -116,7 +117,7 @@ EXAMPLES
   $ fuji api
 ```
 
-_See code: [src/commands/api/index.ts](https://github.com/fujicaFE/cli/blob/v0.0.4/src/commands/api/index.ts)_
+_See code: [src/commands/api/index.ts](https://github.com/fujicaFE/cli/blob/v0.0.5/src/commands/api/index.ts)_
 
 ## `fuji hello PERSON`
 
@@ -140,7 +141,7 @@ EXAMPLES
   hello friend from oclif! (./src/commands/hello/index.ts)
 ```
 
-_See code: [src/commands/hello/index.ts](https://github.com/fujicaFE/cli/blob/v0.0.4/src/commands/hello/index.ts)_
+_See code: [src/commands/hello/index.ts](https://github.com/fujicaFE/cli/blob/v0.0.5/src/commands/hello/index.ts)_
 
 ## `fuji hello world`
 
@@ -158,7 +159,7 @@ EXAMPLES
   hello world! (./src/commands/hello/world.ts)
 ```
 
-_See code: [src/commands/hello/world.ts](https://github.com/fujicaFE/cli/blob/v0.0.4/src/commands/hello/world.ts)_
+_See code: [src/commands/hello/world.ts](https://github.com/fujicaFE/cli/blob/v0.0.5/src/commands/hello/world.ts)_
 
 ## `fuji help [COMMAND]`
 

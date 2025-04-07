@@ -1,7 +1,7 @@
 {
   "name": "@fujica/cli",
   "description": "Catching fish in fujica",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "hexc",
   "bin": {
     "fuji": "./bin/run.js"
