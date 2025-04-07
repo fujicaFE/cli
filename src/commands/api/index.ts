@@ -175,7 +175,6 @@ export default class ApiIndex extends Command {
       // 获取 originalRef 并找到对应的类型定义
       const typeName = responseSchema?.originalRef?.replace('#/definitions/', '') || '';
       const typeDefinition = apiDef[typeName];
-      console.log("🚀 ~ generateResponseInterface ~ typeDefinition:", typeDefinition)
 
       // 如果找到类型定义，则生成对应的接口
       if (typeDefinition) {
@@ -250,9 +249,9 @@ export default class ApiIndex extends Command {
       } else {
         const typeName = params[0]?.schema?.originalRef?.replace('#/definitions/', '') || '';
         const typeDefinition = apiDef[typeName];
-        const { title, properties } = typeDefinition;
         const paramsDefinition = []
         if (typeDefinition) {
+          const { title, properties } = typeDefinition;
           console.log("🚀 ~ generateComment ~ typeDefinition:", typeDefinition)
           // 遍历所有的属性，生成每个字段的类型
           Object.keys(properties).forEach(property => {
